@@ -1,0 +1,6 @@
+{
+  "summary": "Architectural blueprint and implementation plan for PayGate Multi-Domain Restructuring.\nKey highlights:\n- Subdomain-aware multi-app routing for:\n  • merchant.example.com (/signin, /payments, /plans, /settlements, /developers, /settings)\n  • admin.example.com (/signin, /payments, /wallets, /review, /payouts, /device, /audit)\n  • api.example.com (/v1/payments, /v1/sms/webhook, /v1/devices/heartbeat, API docs & live playground)\n- Ambient Dev Domain Switcher bar simulating subdomains in single-origin environments while supporting native production Host headers.\n- Total extraction of SMS Forwarder Simulator from Merchant app into Admin portal.\n- Single Super Admin SMS Forwarder Device with IP whitelisting verification (CIDR/IP whitelist, connection handshake, auto-detected client IP) replacing multi-device fleet telemetry.",
+  "updatedAt": "2026-10-13T18:05:44.007685969Z",
+  "requestFeedback": true,
+  "userFacing": true
+}
