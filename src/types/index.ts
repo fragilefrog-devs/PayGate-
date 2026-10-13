@@ -269,6 +269,7 @@ export interface ParsedSmsResult {
   balanceAfterPaisa?: number;
   refRaw?: string;
   refNormalized?: string;
+  rawSms?: string;
   sender: string;
   simSlot: 1 | 2;
   timestamp: string;

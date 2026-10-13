@@ -202,7 +202,7 @@ export const SuperAdminDeviceTab: React.FC = () => {
             variant="secondary"
             size="sm"
             onClick={handlePingDevice}
-            loading={isPinging}
+            isLoading={isPinging}
             icon={<RefreshCw className="w-3.5 h-3.5" />}
           >
             Ping Device ({lastPingLatency ? `${lastPingLatency}ms` : 'Test'})
@@ -628,7 +628,7 @@ export const SuperAdminDeviceTab: React.FC = () => {
               type="submit"
               variant="primary"
               size="md"
-              loading={isSendingSms}
+              isLoading={isSendingSms}
               icon={<Send className="w-4 h-4" />}
             >
               Transmit SMS to PayGate Engine

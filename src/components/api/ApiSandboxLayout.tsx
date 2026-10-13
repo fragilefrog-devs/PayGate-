@@ -481,7 +481,7 @@ ${Object.entries(requestHeaders)
                 variant="primary"
                 size="sm"
                 onClick={handleSendRequest}
-                loading={isSending}
+                isLoading={isSending}
                 icon={<Send className="w-3.5 h-3.5" />}
               >
                 Send Request

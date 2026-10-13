@@ -17,6 +17,7 @@ import {
   LayoutDashboard,
   ShieldAlert,
   ArrowRightLeft,
+  Code2,
 } from 'lucide-react';
 import { useRouter } from '../../router';
 import { usePayGate } from '../../context/PayGateContext';
@@ -296,18 +297,18 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
 
                 <button
                   onClick={() => {
-                    navigate('/simulator');
+                    setActiveDomain('api', '/');
                     setIsProfileOpen(false);
                   }}
                   className={`w-full px-3 py-1.5 text-left rounded-lg text-xs flex items-center justify-between transition-colors cursor-pointer ${
-                    isSimulator ? 'bg-[var(--accent-soft)] text-[var(--accent)] font-semibold' : 'text-[var(--ink-2)] hover:bg-[var(--surface-2)]'
+                    isApi ? 'bg-[var(--accent-soft)] text-[var(--accent)] font-semibold' : 'text-[var(--ink-2)] hover:bg-[var(--surface-2)]'
                   }`}
                 >
                   <div className="flex items-center gap-2">
-                    <Smartphone className="w-3.5 h-3.5" />
-                    <span>SMS Forwarder Simulator</span>
+                    <Code2 className="w-3.5 h-3.5" />
+                    <span>API Sandbox & Webhooks</span>
                   </div>
-                  {isSimulator && <span className="text-[10px] font-bold">Active</span>}
+                  {isApi && <span className="text-[10px] font-bold">Active</span>}
                 </button>
               </div>
 
