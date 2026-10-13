@@ -1,33 +1,43 @@
-# PayGate Platform — Bangladeshi Merchant MFS Gateway SaaS
+# PayGate Platform — Bangladeshi Merchant MFS Gateway SaaS (v4.0)
 
-PayGate enables Bangladeshi merchants to accept **bKash**, **Nagad**, and **Rocket** payments with **zero provider direct API integration**. Customers pay to a PayGate-managed wallet pool quoting an 8-character typo-checked reference. A fleet of forwarder phones pushes confirmation SMS messages to the ingest pipeline, the atomic matching engine verifies the transaction, the merchant receives an HMAC-SHA256 signed webhook, and net funds are recorded in a double-entry ledger for scheduled bank payout.
+PayGate enables Bangladeshi merchants to accept **bKash**, **Nagad**, **Rocket**, **Upay**, and **Cellfin** (IBBL) payments with **zero provider direct API integration**. Customers pay to a PayGate-managed wallet pool quoting an 8-character polynomial typo-checked reference. A dedicated Super Admin Android handset relays confirmation SMS messages over an IP-whitelisted endpoint, the atomic matching engine verifies the transaction, the merchant receives an HMAC-SHA256 signed webhook, and net funds are recorded in a double-entry ledger for automated BEFTN bank payout batching.
 
-Built with **React 19**, **Vite 8**, **Tailwind CSS v4**, and the **Gate UI Design System**, fully compliant with Progressive Web App (PWA) standards.
+Built with **React 19**, **Vite 8**, **Tailwind CSS v4**, and the **Gate UI Design System**, fully compliant with Progressive Web App (PWA) standards and structured across a robust **Multi-Domain Subdomain Architecture**.
 
 ---
 
-## 🚀 Key Features
+## 🌐 Multi-Domain Architecture
 
-- **Merchant SaaS Portal**:
-  - **Overview**: Real-time volume, net revenue after 5% fee, paid transaction metrics, and attention queue.
-  - **Payments Table**: Live search, provider/status filters, CSV export, and drawer inspector with timeline and SMS evidence proof.
-  - **Pricing Plans**: Server-authoritative plans in paisa (`amount_paisa`) with immutable versioning.
-  - **Settlements & Double-Entry Ledger**: Double-entry accounting ledger statements, balance tracking, and maker-checker payouts (minimum Tk 1,000 threshold).
-  - **Developers & Webhooks**: Live and test API keys (`sk_live_...`, `sk_test_...`), interactive HMAC-SHA256 signature verifier tester, webhook delivery log with manual resend button, and code snippets.
-  - **Settings & KYB**: Trade license, e-TIN, NID verification status, payout bank/MFS accounts, auto-confirm toggle, and 2FA status.
-- **Enhanced Customer Checkout (PRD v3.1)**:
-  - **Dual Integration Modes**: Direct hosted redirect (`/pay/:id`) and modal popup overlay (`paygate.js` simulation).
-  - **6 UI States**: Initial instructions, active TrxID entry, loading state with live pulse animation, verified paid state, needs review state, and 15-minute typo lockout.
+PayGate v4.0 separates concerns across three subdomains with native Host header resolution in production and an **Ambient Domain Switcher** in preview/development:
+
+| Subdomain | Portal Name | Primary Features & Routes |
+| :--- | :--- | :--- |
+| **`merchant.example.com`** | **Merchant SaaS Portal** | • **Overview**: GMV, net revenue after 5% fee, active conversion rate, attention queue.<br>• **Payments**: Real-time payments table, filters, drawer inspector, CSV export.<br>• **Plans**: Server-authoritative pricing plans denominated in integer paisa.<br>• **Settlements**: Double-entry ledger statements and payout initiation (Tk 1,000 threshold).<br>• **Developers**: Live & test API keys, webhook logs, and HMAC verifier.<br>• **Settings**: KYB verification (trade license, TIN, NID), payout bank accounts, 2FA. |
+| **`admin.example.com`** | **Ops Admin Console & Super Admin Device** | • **Super Admin Forwarder**: Dedicated Android handset profile, hardware telemetry, and **Strict CIDR / IP Whitelist Firewall**.<br>• **Wallet Pool**: Liquidity monitoring and 80% daily regulatory limit auto-drain.<br>• **Review Queue**: Split-screen discrepancy matching (underpaid, overpaid, wrong wallet).<br>• **Payout Approvals**: Automated **BEFTN payout batching** with maker-checker clearing.<br>• **Audit Trail**: Immutable compliance log with IP, actor, and timestamp. |
+| **`api.example.com`** | **API Backend & Sandbox** | • **REST API Reference**: Full endpoint documentation for `/v1/payments`, `/v1/sms/webhook`, `/v1/devices/heartbeat`, `/v1/payouts`.<br>• **Interactive Sandbox**: In-browser request runner, custom headers, payload editing, and live latency metrics.<br>• **Code Snippets**: Auto-generated cURL, Node.js, and Python requests. |
+
+---
+
+## 🚀 Key Platform Features
+
+- **5 MFS & Digital Banking Providers**:
+  - Full support for **bKash**, **Nagad**, **Rocket**, **Upay**, and **Cellfin** (IBBL).
+  - Custom provider themes, official brand badges, and specialized regex parsers for each carrier format.
+- **Super Admin SMS Forwarder & IP Firewall**:
+  - Total extraction of forwarder simulation tools from the merchant portal into the Ops Admin console.
+  - Hardware telemetry: IMEI profile, Dual SIM slot assignment (bKash/Nagad on SIM 1, Rocket/Upay/Cellfin on SIM 2), battery ring, and latency ping test.
+  - **Zero-Trust IP Whitelisting**: Strict CIDR and IP checks (e.g., `103.145.74.0/24`, `192.168.1.105`, `127.0.0.1`); unauthorized forwarder calls are dropped with `403 Forbidden` and logged to the security audit trail.
+- **Automated BEFTN Payout Batching**:
+  - Individual merchant settlement requests are bundled into clearing batches (`pob_...`).
+  - Strict maker-checker workflow: Ops maker initiates the batch, independent compliance checker approves with 2FA, clearing references are stamped, and net bank transfers clear.
+- **Enhanced Customer Checkout**:
+  - **Dual Integration Modes**: Direct hosted redirect (`/pay/:id`) and modal popup overlay (`paygate.js`).
+  - **6 Gate UI States**: Initial instructions, active TrxID entry, loading state with live pulse animation, verified paid state, needs review state, and 15-minute typo lockout.
   - **Bilingual Interface**: Seamless toggle between English and **বাংলা** (with +10% line-height compensation for Bengali glyphs).
-- **Progressive Web App (PWA) & Mobile Responsiveness**:
-  - Installable across Chromium, Android, and iOS Safari.
-  - In-app install button (`PWAInstallButton`) with native prompt and iOS Safari modal instructions.
-  - Responsive collapsible sidebar ($240\text{px} \leftrightarrow 64\text{px}$) and touch-friendly mobile bottom navigation bar ($56\text{px}$ touch targets).
-  - Ambient offline connectivity indicator.
-- **Security & Integrity**:
-  - Typo-checked 8-character reference with polynomial check character.
-  - Single-use references, unique TrxID per wallet claim, and balance continuity monitoring.
-  - HMAC-SHA256 signed webhooks (`PayGate-Signature: t=<unix>,v1=<hex>`).
+- **Progressive Web App (PWA)**:
+  - Installable across Chromium, Android, and iOS Safari with guided install prompts.
+  - Responsive collapsible sidebar ($240\text{px} \leftrightarrow 64\text{px}$) and touch-friendly mobile bottom navigation ($56\text{px}$ targets).
+  - Ambient offline connectivity status indicator.
 
 ---
 
@@ -42,40 +52,50 @@ Built with **React 19**, **Vite 8**, **Tailwind CSS v4**, and the **Gate UI Desi
 │   └── apple-touch-icon.png      # iOS Safari home screen icon
 ├── src/
 │   ├── components/
+│   │   ├── admin/                # Ops Admin Portal & Super Admin Device
+│   │   │   ├── AdminDashboardLayout.tsx   # Ops Admin master shell & sub-navigation
+│   │   │   ├── SuperAdminDeviceTab.tsx    # Forwarder handset, IP firewall & SMS terminal
+│   │   │   ├── WalletPoolTab.tsx          # MFS wallet pool liquidity & auto-drain
+│   │   │   ├── ReviewQueueTab.tsx         # Split-screen dispute & discrepancy resolution
+│   │   │   ├── PayoutApprovalsTab.tsx     # BEFTN batching & maker-checker clearing
+│   │   │   └── AuditLogTab.tsx            # Immutable compliance audit log
+│   │   ├── api/                  # API Sandbox & Documentation
+│   │   │   └── ApiSandboxLayout.tsx       # Live REST runner, curl generator, playground
 │   │   ├── auth/                 # Sign In & Merchant KYB Registration pages
 │   │   ├── gate-ui/              # Shared Gate UI design system components
-│   │   │   ├── GateButton.tsx    # Standard button (primary, secondary, danger)
+│   │   │   ├── GateButton.tsx    # Standard button (primary, secondary, ghost, danger)
 │   │   │   ├── GateInput.tsx     # 44px input with inline validation
 │   │   │   ├── StatusChip.tsx    # Status chip with dot and label
 │   │   │   ├── ReferenceChip.tsx # Mono chip with one-tap copy
-│   │   │   ├── ProviderBadge.tsx # Official MFS provider brand dots
+│   │   │   ├── ProviderBadge.tsx # Official MFS provider brand dots (bKash/Nagad/Rocket/Upay/Cellfin)
 │   │   │   ├── StatCard.tsx      # Tabular metric cards
 │   │   │   ├── CommandPalette.tsx# ⌘K global fuzzy search modal
 │   │   │   └── PaymentDrawer.tsx # Detailed payment inspection drawer
-│   │   ├── layout/               # CollapsibleSidebar, TopNavbar, MobileBottomNav
+│   │   ├── layout/               # Shell layout components
+│   │   │   ├── AmbientDomainSwitcher.tsx  # Dev domain switcher bar (merchant/admin/api)
+│   │   │   ├── CollapsibleSidebar.tsx     # Desktop collapsible sidebar
+│   │   │   ├── TopNavbar.tsx              # Universal top navigation bar
+│   │   │   └── MobileBottomNav.tsx        # Mobile bottom navigation bar
 │   │   ├── merchant/             # Merchant SaaS tabs (Overview, Payments, Plans, Settlements, Developers, Settings)
 │   │   ├── pay/                  # HostedPayPage & PayGatePopupModal (6 checkout states)
-│   │   ├── pwa/                  # PWAInstallButton & OfflineIndicator
-│   │   └── simulator/            # Phone fleet SMS forwarder simulator
+│   │   └── pwa/                  # PWAInstallButton & OfflineIndicator
 │   ├── context/
-│   │   └── PayGateContext.tsx    # State store, matching engine actions, ledger, webhooks
-│   ├── hooks/
-│   │   ├── usePWAInstall.ts      # Native PWA install event listener
-│   │   └── useOnlineStatus.ts    # Online/offline network status hook
+│   │   └── PayGateContext.tsx    # State store, matching engine, IP firewall, BEFTN batching, ledger
 │   ├── router/
-│   │   └── index.tsx             # HTML5 pushState client router (/signin, /registration, /pay/:id, /)
+│   │   └── index.tsx             # Multi-domain & path router with domain switcher state
 │   ├── types/
-│   │   └── index.ts              # Domain models (Payment, Merchant, Plan, Ledger, Payout)
+│   │   └── index.ts              # Domain types (Payment, Merchant, Device, PayoutBatch, ParsedSmsResult)
 │   ├── utils/
 │   │   ├── matchingEngine.ts     # Atomic transaction claim & conflict resolver
 │   │   ├── reference.ts          # 8-char reference generator & polynomial check validator
-│   │   ├── smsParser.ts          # bKash, Nagad, and Rocket SMS regex parsers
+│   │   ├── smsParser.ts          # bKash, Nagad, Rocket, Upay, and Cellfin SMS regex parsers
 │   │   └── webhook.ts            # Web Crypto HMAC-SHA256 signature generator & verifier
 │   ├── tokens.json               # Gate UI design tokens
-│   ├── App.tsx                   # Master application shell
+│   ├── App.tsx                   # Master application router & layout orchestrator
 │   └── index.css                 # CSS variables & Tailwind v4 setup
+├── supabase/migrations/          # PostgreSQL schema migrations (v3.0 core, v4.0 Upay/Cellfin & BEFTN batching)
 ├── DESIGN.md                     # Gate UI Design System specification
-├── PRD.md                        # Product Requirements Document v3.1
+├── PRD.md                        # Product Requirements Document v4.0
 └── vite.config.ts                # Vite configuration with VitePWA plugin
 ```
 
@@ -114,29 +134,18 @@ npm run build
 
 ---
 
-## 📲 Progressive Web App (PWA) Installation
-
-- **Desktop (Chrome / Edge / Brave)**: Click the **"Install App"** button in the top navigation bar or the browser URL bar install icon.
-- **Android**: Tap the **"Install App"** button to open the native web APK install prompt.
-- **iOS (Safari)**: Tap the **"Install App"** button to open the guided instructions:
-  1. Tap the **Share** button in the Safari bottom bar.
-  2. Tap **"Add to Home Screen"**.
-  3. Tap **"Add"** to install PayGate to your iPhone or iPad home screen.
-
----
-
 ## 🔌 API & Integration Guide
 
 ### Creating a Payment
 ```bash
-curl -X POST https://api.paygate.com/v1/payments \
+curl -X POST https://api.example.com/v1/payments \
   -H "Authorization: Bearer sk_live_8e1d2c3b4a5f607182934" \
   -H "Idempotency-Key: req_09182310" \
   -H "Content-Type: application/json" \
   -d '{
     "plan_id": "plan_pro_monthly",
     "order_id": "ORD-94812",
-    "provider": "bkash",
+    "provider": "upay",
     "callback_url": "https://api.yourdomain.com/webhooks/paygate",
     "success_url": "https://yourdomain.com/checkout/success"
   }'
@@ -150,16 +159,31 @@ curl -X POST https://api.paygate.com/v1/payments \
   "amount_paisa": 120000,
   "currency": "BDT",
   "reference": "K7M4X2QH",
-  "provider": "bkash",
+  "provider": "upay",
   "wallet": {
-    "provider": "bkash",
-    "number": "01712-750278",
-    "holder_name": "Rahim Ahmed (Primary 1)"
+    "provider": "upay",
+    "number": "01912-345678",
+    "holder_name": "PayGate Pool Upay 1"
   },
-  "pay_url": "https://pay.paygate.com/p/pay_01ha9x201",
-  "expires_at": "2026-10-12T16:00:00Z"
+  "pay_url": "https://pay.example.com/pay/pay_01ha9x201",
+  "expires_at": "2026-10-13T16:00:00Z"
 }
 ```
+
+### Ingesting SMS from Forwarder Handset (Super Admin Device)
+```bash
+curl -X POST https://api.example.com/v1/sms/webhook \
+  -H "X-Device-Token: dev_sec_superadmin_9921" \
+  -H "X-Forwarded-For: 103.145.74.12" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "sender": "Upay",
+    "raw_sms": "Received Tk 1200.00 from 01812345678. Trx ID 9K2LMN84. Ref: K7M4X2QH. Fee Tk 0.00. Balance Tk 14500.00. 13/10/2026 15:30",
+    "sim_slot": 2
+  }'
+```
+
+*(Note: If `X-Forwarded-For` is not in the Super Admin CIDR whitelist, the endpoint immediately returns `403 Forbidden` and logs an unauthorized intrusion attempt).*
 
 ### Verifying Webhooks (Node.js / Express)
 ```javascript
@@ -199,14 +223,23 @@ app.post('/webhooks/paygate', express.raw({ type: 'application/json' }), (req, r
 
 ## 🧪 Interactive Testing Lab
 
-1. **Test Checkout**: Click the **"Test Checkout"** button in the top navigation bar to open the popup modal.
-2. **Review Exception Queue**: In the Payments tab, inspect flagged payments to see customer claims vs forwarded SMS evidence.
-3. **PWA Offline Mode**: Open Developer Tools (`F12`), toggle Network to **Offline**, and verify that the ambient offline badge appears while cached data remains accessible.
-4. **Bilingual Verification**: Toggle between **EN** and **বাংলা** to verify typography and natural phrasing.
+1. **Ambient Domain Switcher**: Use the top domain switcher bar to test across `merchant.example.com`, `admin.example.com`, and `api.example.com`.
+2. **Super Admin Device & Firewall Test**:
+   - Switch to **Ops Admin** → **Forwarder Device**.
+   - Test the Ping Device latency diagnostic.
+   - Inject a test SMS using the pre-configured templates (bKash, Nagad, Rocket, Upay, Cellfin).
+   - Test IP firewall blocking by setting an unauthorized client IP (e.g. `198.51.100.4`) and observe the 403 Forbidden rejection and audit log entry.
+3. **Automated BEFTN Batching**:
+   - Navigate to **Ops Admin** → **Payout Approvals**.
+   - Create a BEFTN clearing batch from pending payouts and verify the maker-checker authorization flow.
+4. **API Sandbox**:
+   - Switch to **API Backend** to run live interactive requests against `/v1/payments`, `/v1/sms/webhook`, and `/v1/payouts`.
+5. **Customer Checkout Flow**:
+   - Click **"Test Checkout"** in the top navigation bar to test the 6 Gate UI states in both English and Bengali.
 
 ---
 
 ## 📄 License & Compliance
 
 © 2026 PayGate Technologies Bangladesh Ltd. All rights reserved.  
-Complies with Bangladesh Bank National Payment Switch Guidelines and MFS Pooling Runbook v3.1.
+Complies with Bangladesh Bank National Payment Switch Guidelines and MFS Pooling Runbook v4.0.
